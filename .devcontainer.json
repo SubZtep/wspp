@@ -1,0 +1,4 @@
+{
+  "name": "wspp-dev",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node"
+}
