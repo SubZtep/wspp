@@ -14,6 +14,7 @@ COPY --from=builder --chown=node:node [ \
   "/home/node/package.json", \
   "/home/node/server.js", \
   "."]
+COPY --chown=node:node --from=builder ["/home/node/public", "./public"]
 ENV NODE_ENV=production
 RUN ["pnpm", "install"]
 
