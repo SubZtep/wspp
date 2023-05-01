@@ -4,6 +4,8 @@ import { createServer } from "http"
 
 import WebSocket from "ws"
 
+const port = Number(process.env.PORT)
+
 const app = express()
 app.use(express.static(path.join(__dirname, "/public")))
 
@@ -26,8 +28,8 @@ wss.on("connection", function (ws) {
   })
 })
 
-server.listen(8080, function () {
-  console.log("Listening on http://0.0.0.0:8080")
+server.listen(port, function () {
+  console.log(`Listening on http://0.0.0.0:${port}`)
 })
 
 // import express from "express"
