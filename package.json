@@ -1,0 +1,25 @@
+{
+  "name": "wspp",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev:build": "tsc -w",
+    "dev:start": "node -r dotenv/config server.js",
+    "dev": "tsc && pnpm run \"/^dev:.*/\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3",
+    "@types/ws": "^8.5.4",
+    "dotenv": "^16.0.3",
+    "typescript": "^5.0.4"
+  }
+}
