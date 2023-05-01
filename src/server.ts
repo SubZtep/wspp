@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url"
 import { join } from "node:path"
 import express from "express"
 import { createServer } from "http"
-import WebSocket from "ws"
+import { WebSocketServer } from "ws"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const port = Number(process.env.PORT)
@@ -12,7 +12,7 @@ const app = express()
 app.use(express.static(join(__dirname, "/public")))
 
 const server = createServer(app)
-const wss = new WebSocket.Server({ server })
+const wss = new WebSocketServer({ server })
 
 wss.on("connection", function (ws) {
   const id = setInterval(function () {
