@@ -1,13 +1,15 @@
+import { dirname } from "node:path"
+import { fileURLToPath } from "node:url"
+import { join } from "node:path"
 import express from "express"
-import path from "path"
 import { createServer } from "http"
-
 import WebSocket from "ws"
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const port = Number(process.env.PORT)
 
 const app = express()
-app.use(express.static(path.join(__dirname, "/public")))
+app.use(express.static(join(__dirname, "/public")))
 
 const server = createServer(app)
 const wss = new WebSocket.Server({ server })
