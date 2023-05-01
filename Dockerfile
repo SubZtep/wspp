@@ -15,4 +15,4 @@ COPY --chown=node:node --from=builder ["/home/node", "."]
 ENV NODE_ENV=production
 
 EXPOSE $PORT
-CMD ["node", "server.js"]
+CMD ["node", "build/server.js"]
