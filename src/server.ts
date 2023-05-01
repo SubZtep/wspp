@@ -1,32 +1,65 @@
-import WebSocket, { WebSocketServer } from "ws"
+import express from "express"
+import path from "path"
+import { createServer } from "http"
 
-const port = Number(process.env.PORT)
+import WebSocket from "ws"
 
-const wss = new WebSocketServer(
-  {
-    port,
-    clientTracking: true,
-  },
-  () => {
-    console.log("WebSocket server running on port", port)
-  }
-)
+const app = express()
+app.use(express.static(path.join(__dirname, "/public")))
 
-wss.on("connection", (ws) => {
-  console.log("Connection")
+const server = createServer(app)
+const wss = new WebSocket.Server({ server })
 
-  ws.on("error", (ev) => console.log("WS Error", ev))
-
-  ws.on("message", (data, binary) => {
-    console.log("Message", String(data))
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(`re:${data}`, { binary })
-      }
+wss.on("connection", function (ws) {
+  const id = setInterval(function () {
+    ws.send(JSON.stringify(process.memoryUsage()), function () {
+      //
+      // Ignoring errors.
+      //
     })
+  }, 100)
+  console.log("started client interval")
+
+  ws.on("close", function () {
+    console.log("stopping client interval")
+    clearInterval(id)
   })
 })
 
-wss.on("error", (ev) => console.log("WSS Error", ev))
+server.listen(8080, function () {
+  console.log("Listening on http://0.0.0.0:8080")
+})
 
-export {}
+// import express from "express"
+// import WebSocket, { WebSocketServer } from "ws"
+
+// const port = Number(process.env.PORT)
+
+// const wss = new WebSocketServer(
+//   {
+//     port,
+//     clientTracking: true,
+//   },
+//   () => {
+//     console.log("WebSocket server running on port", port)
+//   }
+// )
+
+// wss.on("connection", (ws) => {
+//   console.log("Connection")
+
+//   ws.on("error", (ev) => console.log("WS Error", ev))
+
+//   ws.on("message", (data, binary) => {
+//     console.log("Message", String(data))
+//     wss.clients.forEach((client) => {
+//       if (client.readyState === WebSocket.OPEN) {
+//         client.send(`re:${data}`, { binary })
+//       }
+//     })
+//   })
+// })
+
+// wss.on("error", (ev) => console.log("WSS Error", ev))
+
+// export {}
