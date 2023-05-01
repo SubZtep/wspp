@@ -6,5 +6,7 @@
     "1337": {
       "label": "WebSocket server"
     }
-  }
+  },
+  "updateContentCommand": "pnpm install",
+  "postAttachCommand": "pnpm run dev"
 }
