@@ -1,69 +1,57 @@
-import { dirname } from "node:path"
+import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
-import { join } from "node:path"
+import { createServer } from "node:http"
 import express from "express"
-import { createServer } from "http"
-import { WebSocketServer } from "ws"
+import WebSocket, { WebSocketServer } from "ws"
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
 const port = Number(process.env.PORT)
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
-app.use(express.static(join(__dirname, "/public")))
+app.set("views", resolve(__dirname, "views"))
+app.set("view engine", "pug")
 
-// const server = createServer(app)
-// const wss = new WebSocketServer({ server })
+app.get("/favicon.ico", (_req, res) => {
+  res.sendStatus(204)
+})
 
-// wss.on("connection", function (ws) {
-//   const id = setInterval(function () {
-//     ws.send(JSON.stringify(process.memoryUsage()), function () {
-//       //
-//       // Ignoring errors.
-//       //
-//     })
-//   }, 100)
-//   console.log("started client interval")
+app.get("/", (_req, res) => {
+  res.render("index", { title: "Stats" })
+})
 
-//   ws.on("close", function () {
-//     console.log("stopping client interval")
-//     clearInterval(id)
-//   })
-// })
+const server = createServer(app)
+const wss = new WebSocketServer({ server })
 
-// server.listen(port, function () {
-//   console.log(`Listening on http://0.0.0.0:${port}`)
-// })
-
-// import express from "express"
-// import WebSocket, { WebSocketServer } from "ws"
-
-// const port = Number(process.env.PORT)
-
-const wss = new WebSocketServer(
-  {
-    port,
-    clientTracking: true,
-  },
-  () => {
-    console.log("WebSocket server running on port", port)
-  }
-)
-
-wss.on("connection", (ws) => {
+wss.on("connection", ws => {
   console.log("Connection")
 
-  ws.on("error", (ev) => console.log("WS Error", ev))
+  ws.on("error", ev => console.log("WS Error", ev))
 
   ws.on("message", (data, binary) => {
     console.log("Message", String(data))
-    wss.clients.forEach((client) => {
+    wss.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(`re:${data}`, { binary })
       }
     })
   })
+
+  const id = setInterval(() => {
+    ws.send(JSON.stringify(process.memoryUsage()), err => {
+      if (err) {
+        console.log("Error sending message", err)
+      }
+    })
+  }, 1_000)
+
+  ws.on("close", () => {
+    console.log("stopping client interval")
+    clearInterval(id)
+  })
 })
 
-wss.on("error", (ev) => console.log("WSS Error", ev))
+wss.on("error", err => console.log("WSS Error", err))
 
-// export {}
+server.listen(port, () => {
+  console.log("Server running on port", port)
+})

@@ -2,19 +2,20 @@
   "name": "wspp",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "keywords": [],
+  "license": "ISC",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev:build": "tsc -w",
-    "dev:start": "node -r dotenv/config server.js",
-    "dev": "tsc && pnpm run \"/^dev:.*/\"",
+    "dev:build": "tsc --watch",
+    "dev:start": "node --watch -r dotenv/config server.js",
+    "dev": "pnpm run \"/^dev:.*/\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "pug": "^3.0.2",
     "ws": "^8.13.0"
   },
   "devDependencies": {

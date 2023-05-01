@@ -1,5 +1,10 @@
-.git
+.*
+!.env
+# /\.*
+# .git
+# .devcontainer.json
+# .dockerignore
+# .editorconfig
 node_modules
-.dockerignore
 Dockerfile
 *.md
