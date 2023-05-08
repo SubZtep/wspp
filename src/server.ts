@@ -33,10 +33,11 @@ wss.on("connection", ws => {
     //   // client.send(data, { binary })
     // }
 
-    // console.log("Message", )
+    console.log("Message", String(data))
 
     wss.clients.forEach(client => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
+      // if (client !== ws && client.readyState === WebSocket.OPEN) {
+      if (client.readyState === WebSocket.OPEN) {
         client.send(data, { binary })
         // client.send(`re:${data}`, { binary })
       }
