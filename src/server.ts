@@ -33,7 +33,7 @@ wss.on("connection", ws => {
     //   // client.send(data, { binary })
     // }
 
-    console.log("Message", String(data))
+    // console.log("Message", String(data))
 
     wss.clients.forEach(client => {
       // if (client !== ws && client.readyState === WebSocket.OPEN) {

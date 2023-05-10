@@ -1,6 +1,10 @@
 # wspp
 
-## Custom port
+Simple WebSocket server (ping—pong).
+
+## Run
+
+With custom port:
 
 ```
 $ export PORT=1234
