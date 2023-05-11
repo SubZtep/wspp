@@ -5,8 +5,9 @@ block layout-content
     a(href="https://github.com/SubZtep/wspp") wspp
     |  stats
 
-  include stats/connections
-  include stats/memory
+  main
+    include stats/connections
+    include stats/memory
 
   //- script.
   //-   // will not use tls if the connection is not made over https

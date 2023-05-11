@@ -4,12 +4,24 @@ html
     meta(charset="utf-8")
     title #{title} | wspp
     style.
+      html {
+        color-scheme: light dark;
+      }
+      body {
+        font-family: system-ui;
+        font-size: 1.125rem;
+        line-height: 1.5;
+      }
       table, td {
         border: 1px solid #333;
       }
       thead {
         background-color: #333;
         color: #fff;
+      }
+      main {
+        display: grid;
+        grid-auto-flow: column;
       }
   body
     block layout-content
