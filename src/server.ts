@@ -13,12 +13,15 @@ const app = express()
 app.set("view engine", "pug")
 app.set("views", resolve(dirname(fileURLToPath(import.meta.url)), "../views"))
 app.get("/favicon.ico", (_, res) => res.sendStatus(204))
-
 app.get("/", (_req, res) => {
   res.render("index", {
     title: "Stats",
     connections,
-    mem: process.memoryUsage(),
+    mem: Object.fromEntries(
+      Object.entries(process.memoryUsage()).map(([key, value]) => {
+        return [key, `${(value / 1_000_000).toFixed(2)} MB`]
+      })
+    ),
   })
 })
 
