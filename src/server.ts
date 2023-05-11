@@ -6,7 +6,7 @@ import WebSocket, { WebSocketServer } from "ws"
 
 let connections = {
   active: 0,
-  top: 0,
+  top: 0
 }
 
 const app = express()
@@ -18,10 +18,11 @@ app.get("/", (_req, res) => {
     title: "Stats",
     connections,
     mem: Object.fromEntries(
-      Object.entries(process.memoryUsage()).map(([key, value]) => {
-        return [key, `${(value / 1_000_000).toFixed(2)} MB`]
-      })
-    ),
+      Object.entries(process.memoryUsage()).map(([key, value]) => [
+        key,
+        `${(value / 1_000_000).toFixed(2)} MB`
+      ])
+    )
   })
 })
 
