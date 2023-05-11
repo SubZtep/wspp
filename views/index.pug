@@ -2,6 +2,16 @@ extends layout
 
 block layout-content
   h1 Server stats
+
+  table
+    thead
+      tr
+        th(colspan="2") Connections
+    tbody
+      tr
+        td Active
+        td #{connections}
+
   table
     thead
       tr

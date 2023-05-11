@@ -4,21 +4,23 @@ import { createServer } from "node:http"
 import express from "express"
 import WebSocket, { WebSocketServer } from "ws"
 
+let connections = 0
+
 const app = express()
 app.set("view engine", "pug")
 app.set("views", resolve(dirname(fileURLToPath(import.meta.url)), "../views"))
 app.get("/favicon.ico", (_, res) => res.sendStatus(204))
 
 app.get("/", (_req, res) => {
-  console.log(process.memoryUsage())
-  res.render("index", { title: "Stats", mem: process.memoryUsage() })
+  res.render("index", { title: "Stats", connections, mem: process.memoryUsage() })
 })
 
 const server = createServer(app)
 const wss = new WebSocketServer({ server })
 
 wss.on("connection", ws => {
-  console.log("Connection")
+  // console.log("Connection")
+  connections = wss.clients.size
 
   ws.on("error", ev => console.log("WS Error", ev))
 
@@ -36,7 +38,8 @@ wss.on("connection", ws => {
   })
 
   ws.on("close", () => {
-    console.log("WS Close")
+    // console.log("WS Close")
+    connections = wss.clients.size
   })
 })
 
