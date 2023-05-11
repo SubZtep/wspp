@@ -5,34 +5,38 @@ block layout-content
   table
     thead
       tr
-        th(colspan='2') Memory usage
+        th(colspan="2") Memory usage
     tbody
       tr
         td RSS
-        td#rss
+        td #{mem["rss"]}
+        //- td#rss
       tr
         td Heap total
-        td#heapTotal
+        td #{mem["heapTotal"]}
+        //- td#heapTotal
       tr
         td Heap used
-        td#heapUsed
+        td #{mem["heapUsed"]}
+        //- td#heapUsed
       tr
         td External
-        td#external
-  script.
-    (function() {
-    const rss = document.getElementById('rss');
-    const heapTotal = document.getElementById('heapTotal');
-    const heapUsed = document.getElementById('heapUsed');
-    const external = document.getElementById('external');
-    // will not use tls if the connection is not made over https
-    const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
-    const ws = new WebSocket(`${protocol}://${location.host}`);
-    ws.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    rss.textContent = data.rss;
-    heapTotal.textContent = data.heapTotal;
-    heapUsed.textContent = data.heapUsed;
-    external.textContent = data.external;
-    };
-    })();
+        td #{mem["external"]}
+        //- td#external
+  //- script.
+  //-   //- const rss = document.getElementById('rss');
+  //-   //- const heapTotal = document.getElementById('heapTotal');
+  //-   //- const heapUsed = document.getElementById('heapUsed');
+  //-   //- const external = document.getElementById('external');
+
+  //-   // will not use tls if the connection is not made over https
+  //-   const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
+  //-   console.log("lol", `${protocol}://${location.host}`)
+  //-   //- const ws = new WebSocket(`${protocol}://${location.host}`);
+  //-   //- ws.onmessage = function(event) {
+  //-   //-   const data = JSON.parse(event.data);
+  //-   //-   rss.textContent = data.rss;
+  //-   //-   heapTotal.textContent = data.heapTotal;
+  //-   //-   heapUsed.textContent = data.heapUsed;
+  //-   //-   external.textContent = data.external;
+  //-   //- }

@@ -5,12 +5,13 @@ import express from "express"
 import WebSocket, { WebSocketServer } from "ws"
 
 const app = express()
-app.set("views", resolve(dirname(fileURLToPath(import.meta.url)), "../views"))
 app.set("view engine", "pug")
+app.set("views", resolve(dirname(fileURLToPath(import.meta.url)), "../views"))
 app.get("/favicon.ico", (_, res) => res.sendStatus(204))
 
 app.get("/", (_req, res) => {
-  res.render("index", { title: "Stats" })
+  console.log(process.memoryUsage())
+  res.render("index", { title: "Stats", mem: process.memoryUsage() })
 })
 
 const server = createServer(app)
