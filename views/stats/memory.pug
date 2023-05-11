@@ -1,0 +1,17 @@
+table
+  thead
+    tr
+      th(colspan="2") Memory usage
+  tbody
+    tr
+      td RSS
+      td #{mem.rss}
+    tr
+      td Heap total
+      td #{mem.heapTotal}
+    tr
+      td Heap used
+      td #{mem.heapUsed}
+    tr
+      td External
+      td #{mem.external}
