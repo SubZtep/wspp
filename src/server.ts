@@ -38,9 +38,13 @@ wss.on("connection", ws => {
   ws.on("error", ev => console.log("WS Error", ev))
 
   ws.on("message", (data, binary) => {
-    wss.clients.forEach(client => {
-      // if (client !== ws && client.readyState === WebSocket.OPEN) {
+    // console.log("RECEIVED", data.toString())
+    wss.clients.forEach(async client => {
+      // const isSender = client === ws
       if (client.readyState === WebSocket.OPEN) {
+        if (false) {
+          await sleep(Math.random() * 1_000)
+        }
         client.send(data, { binary })
       }
     })
@@ -60,3 +64,7 @@ wss.on("error", err => console.log("WSS Error", err))
 server.listen(Number(process.env.PORT), () => {
   console.log("Server is running on port", process.env.PORT)
 })
+
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
